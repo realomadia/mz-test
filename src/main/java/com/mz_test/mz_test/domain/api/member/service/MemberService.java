@@ -38,11 +38,9 @@ public class MemberService {
         String saltedPassword = BcryptUtil.hashPasswordWithSalt(memberDto.getPassword(), salt);
         memberDto.setSalt(salt);
         memberDto.setPassword(saltedPassword);
-        // Member 조회 (이미 저장된 경우 더티 체킹을 위해)
-        Optional<Member> optionalMember = memberRepository.findByLoginId(memberDto.getLoginId());
 
+        Optional<Member> optionalMember = memberRepository.findByLoginId(memberDto.getLoginId());
         if (optionalMember.isEmpty()) {
-            // 새로운 Member 생성
             Member member = Member.createWithProfile(memberDto);
             memberRepository.save(member);
             return DefaultResponseDto.builder().success(true).message("회원가입 완료").build();
@@ -72,7 +70,7 @@ public class MemberService {
         return DefaultResponseDto.builder().message("회원 삭제 완료").success(true).build();
     }
 
-    public Page<MembersDto> getAllMembers(int page, int size, String searchName) {
+    public Page<MembersDto> findAllMembers(int page, int size, String searchName) {
         Pageable pageable = PageRequest.of(page, size);
         return memberRepository.findByNameContainingIgnoreCase(searchName, pageable).map(MembersDto::new);
     }

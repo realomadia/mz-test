@@ -40,10 +40,10 @@ public class MemberRestController {
     @Operation(summary = "회원 전체 조회", description = "회원을 전체 조회 할때 쓰는 API")
     @AdminCheck
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<Page<MembersDto>>> getAllMembers(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<ApiResponse<Page<MembersDto>>> findAllMembers(@RequestParam(defaultValue = "0") int page,
                                                                       @RequestParam(defaultValue = "10") int size,
                                                                       @RequestParam(defaultValue = "") String searchName) {
-        return ResponseEntity.ok(new ApiResponse<>(memberService.getAllMembers(page, size, searchName)));
+        return ResponseEntity.ok(new ApiResponse<>(memberService.findAllMembers(page, size, searchName)));
     }
 
     @Operation(summary = "회원 조회", description = "특정 회원을 조회 할때 쓰는 API")

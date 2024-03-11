@@ -49,8 +49,6 @@ public class RoleControllerTest {
     private ObjectMapper objectMapper;
     private String token; // api 인증용 토큰
 
-
-
     @BeforeEach
     void setup() throws Exception {
         token = adminLogin(); // 테스트 전에 관리자로 로그인후 토큰을 리턴받아 전역 변수에 저장
@@ -63,13 +61,13 @@ public class RoleControllerTest {
     @Test
     void changeRole_success() throws Exception {
 
-        // Given
+
         Member member = memberRepository.findByLoginId("ROLEROLE").get();
 
         ChangeRoleDto changeRoleDto = new ChangeRoleDto();
         changeRoleDto.setMemberId(member.getMemberId());
 
-        // When
+
         mockMvc.perform(put("/api/role/admin") // 어드민으로 변환
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token)
@@ -77,7 +75,7 @@ public class RoleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.success").value(true));
 
-        assertEquals(member.getRole(), "admin");
+        assertEquals(member.getRole(), "admin"); // 어드민 확인
 
         mockMvc.perform(put("/api/role/member") // 멤버로 변환
                         .contentType(MediaType.APPLICATION_JSON)
@@ -86,7 +84,7 @@ public class RoleControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.success").value(true));
 
-        assertEquals(member.getRole(), "member");
+        assertEquals(member.getRole(), "member"); // 멤버 확인
     }
 
 //    @Rollback(value = false)
@@ -133,7 +131,7 @@ public class RoleControllerTest {
     }
 
     public void addMember() throws Exception {
-        // Given
+
         AddProfileDto addProfileDto = new AddProfileDto();
         addProfileDto.setAddress(null); // 주소는 null가능
         addProfileDto.setNickname("ROLETEST");
@@ -145,7 +143,7 @@ public class RoleControllerTest {
         addMemberDto.setPassword("ROLEPASSWORD");
         addMemberDto.setAddProfileDto(addProfileDto);
 
-        // When & then
+
         mockMvc
                 .perform(post("/api/member")
                         .contentType(MediaType.APPLICATION_JSON)

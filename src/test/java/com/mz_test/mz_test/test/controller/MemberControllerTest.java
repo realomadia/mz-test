@@ -100,10 +100,10 @@ public class MemberControllerTest {
      */
     @Test
     void addMember_fail() throws Exception {
-        // Given
+
         addMember_success();
 
-        // Given - 동일한 loginId를 가진 두 번째 사용자
+        //  동일한 loginId를 가진 두 번째 사용자
         AddProfileDto addProfileDto = new AddProfileDto();
         addProfileDto.setAddress(null); // 주소는 null가능
         addProfileDto.setNickname("TEST NICKNAME");
@@ -115,7 +115,6 @@ public class MemberControllerTest {
         addMemberDto.setPassword("password");
         addMemberDto.setAddProfileDto(addProfileDto);
 
-        // When & Then
         mockMvc
                 .perform(post("/api/member")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -130,13 +129,13 @@ public class MemberControllerTest {
      */
     @Test
     void login_success() throws Exception {
-        // Given
+
         addMember_success();
 
         LoginDto loginDto = new LoginDto();
         loginDto.setId("testMember");
         loginDto.setPassword("password");
-        // When & Then
+
         MvcResult result = mockMvc
                 .perform(post("/api/member/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -157,13 +156,13 @@ public class MemberControllerTest {
      */
     @Test
     void login_fail() throws Exception {
-        // Given
+
         addMember_success();
 
         LoginDto loginDto = new LoginDto();
         loginDto.setId("testMember");
         loginDto.setPassword("password1"); // 틀린 패스워드 전달해 CustomException 발생
-        // When & Then
+
         mockMvc
                 .perform(post("/api/member/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -179,9 +178,9 @@ public class MemberControllerTest {
     @Test
 //    @Rollback(value = false)
     void deleteMember_success() throws Exception {
-        // Given
+
         token = loginAndGetToken();
-        // When & Then
+
         mockMvc
                 .perform(delete("/api/member")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -286,7 +285,7 @@ public class MemberControllerTest {
         addMemberDto.setPassword("password");
         addMemberDto.setAddProfileDto(addProfileDto);
 
-        // When & then
+
         mockMvc
                 .perform(post("/api/member")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -297,7 +296,7 @@ public class MemberControllerTest {
         LoginDto loginDto = new LoginDto();
         loginDto.setId("imdelete");
         loginDto.setPassword("password");
-        // When & Then
+
         MvcResult result = mockMvc
                 .perform(post("/api/member/login")
                         .contentType(MediaType.APPLICATION_JSON)

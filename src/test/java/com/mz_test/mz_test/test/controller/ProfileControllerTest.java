@@ -68,7 +68,7 @@ public class ProfileControllerTest {
         addMemberDto.setPassword("password");
         addMemberDto.setAddProfileDto(addProfileDto);
 
-        // When & then
+
         mockMvc
                 .perform(post("/api/member")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -79,7 +79,7 @@ public class ProfileControllerTest {
         LoginDto loginDto = new LoginDto();
         loginDto.setId("testMember");
         loginDto.setPassword("password");
-        // When & Then
+
         MvcResult result = mockMvc
                 .perform(post("/api/member/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -104,13 +104,13 @@ public class ProfileControllerTest {
 //    @Rollback(value = false)
     void addProfile_success() throws Exception {
 
-        // Given
+
         AddProfileDto addProfileDto = new AddProfileDto();
         addProfileDto.setNickname("lomadia");
         addProfileDto.setPhone("010-4444-4840");
         addProfileDto.setAddress("IDK");
 
-        // When
+
         mockMvc.perform(post("/api/profile")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token)
@@ -127,7 +127,6 @@ public class ProfileControllerTest {
 //    @Rollback(value = false)
     void editProfile_success() throws Exception {
 
-        // Given
         // 프로필 수정전 수정할 프로필 선택
         Member member = memberRepository.findByLoginId("testMember").orElseThrow(() -> new RuntimeException("MEMBER_NOT_FOUND"));
         Long targetProfileId = member.getProfiles().get(0).getProfileId();
@@ -162,7 +161,7 @@ public class ProfileControllerTest {
         Long targetProfileId = member.getProfiles().get(0).getProfileId();
         DeleteProfileDto deleteProfileDto = new DeleteProfileDto();
         deleteProfileDto.setProfileId(targetProfileId);
-        // When
+
         mockMvc.perform(delete("/api/profile")// 메인 프로필이 한개밖에 없기 때문에 실패
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token)
@@ -186,7 +185,7 @@ public class ProfileControllerTest {
         Long targetProfileId = member.getProfiles().get(1).getProfileId(); // 메인 프로필 아닌거 삭제
         DeleteProfileDto deleteProfileDto = new DeleteProfileDto();
         deleteProfileDto.setProfileId(targetProfileId);
-        // When
+
         mockMvc.perform(delete("/api/profile")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token)
