@@ -220,10 +220,11 @@ public class MemberControllerTest {
         List<MembersDto> membersDtoList = convertJsonToMemberDtoList(content);
         assertEquals(size, membersDtoList.size());
 
-//        for(MembersDto dto : membersDtoList){
-//            log.info("ID : {}", dto.getMemberId());
-//            log.info("NICKNAME : {}", dto.getProfileDto().getNickname());
-//        }
+        for(MembersDto dto : membersDtoList){
+            log.info("ID : {}", dto.getMemberId());
+            log.info("NICKNAME : {}", dto.getProfileDto().getNickname());
+            log.info("NAME : {}", dto.getName());
+        }
 
     }
 

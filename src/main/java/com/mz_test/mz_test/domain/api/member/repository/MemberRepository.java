@@ -15,6 +15,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     void deleteByLoginId(String memberId);
 
-    @Query("SELECT m FROM Member m WHERE LOWER(m.name) LIKE LOWER(CONCAT('%', :searchName, '%'))")
-    Page<Member> findByNameContainingIgnoreCase(Pageable pageable, @Param("searchName") String searchName);
+    Page<Member> findByNameContainingIgnoreCase(String searchName, Pageable pageable);
 }

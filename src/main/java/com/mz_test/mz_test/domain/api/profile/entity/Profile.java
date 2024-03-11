@@ -56,4 +56,7 @@ public class Profile {
         this.isMain = 1;
     }
 
+    public void removeProfile() {
+        this.member = null;
+    }
 }

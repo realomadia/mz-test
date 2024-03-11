@@ -67,8 +67,8 @@ public class ProfileService {
         Optional<Member> optionalMember = memberRepository.findByLoginId(id);
         if(optionalMember.isPresent()){
             Member member = optionalMember.get();
-            profileRepository.deleteById(deleteProfileDto.getProfileId());
             member.deleteProfile(deleteProfileDto);
+            profileRepository.deleteById(deleteProfileDto.getProfileId());
         }else{
             throw new CustomException("MEMBER_NOT_FOUND", ErrorCode.INVALID_TOKEN);
         }

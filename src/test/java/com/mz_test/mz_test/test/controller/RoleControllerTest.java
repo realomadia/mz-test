@@ -57,8 +57,11 @@ public class RoleControllerTest {
         addMember();
     }
 
+    /**
+     * 권한 변경 성공 테스트
+     */
     @Test
-    void changeRole() throws Exception {
+    void changeRole_success() throws Exception {
 
         // Given
         Member member = memberRepository.findByLoginId("ROLEROLE").get();
@@ -85,7 +88,6 @@ public class RoleControllerTest {
 
         assertEquals(member.getRole(), "member");
     }
-
 
     @Rollback(value = false)
     private String adminLogin() throws Exception {

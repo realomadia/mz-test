@@ -176,14 +176,14 @@ public class ProfileControllerTest {
      * 프로필 삭제 성공 테스트(1. 메인프로필을 삭제할때, 메인 프로필이 아닌걸 삭제할때)
      */
     @Test
-//    @Rollback(value = false)
+    @Rollback(value = false)
     void deleteProfile_success() throws Exception {
         // 프로필 하 나 더 추 가
         addProfile_success();
         // 프로필 삭제전 수정할 프로필 선택
         Member member = memberRepository.findByLoginId("testMember").orElseThrow(() -> new RuntimeException("MEMBER_NOT_FOUND"));
-        Long targetProfileId = member.getProfiles().get(0).getProfileId(); // 메인 프로필 삭제
-//        Long targetProfileId = member.getProfiles().get(1).getProfileId(); // 메인 프로필 아닌거 삭제
+//        Long targetProfileId = member.getProfiles().get(0).getProfileId(); // 메인 프로필 삭제
+        Long targetProfileId = member.getProfiles().get(1).getProfileId(); // 메인 프로필 아닌거 삭제
         DeleteProfileDto deleteProfileDto = new DeleteProfileDto();
         deleteProfileDto.setProfileId(targetProfileId);
         // When

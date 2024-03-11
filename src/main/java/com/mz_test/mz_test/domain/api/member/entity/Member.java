@@ -116,6 +116,7 @@ public class Member {
         }
         // 해당 프로필 삭제
         profiles.remove(profileToDelete);
+        profileToDelete.removeProfile();
     }
 
 

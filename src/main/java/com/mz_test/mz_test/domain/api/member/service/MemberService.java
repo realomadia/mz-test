@@ -74,7 +74,7 @@ public class MemberService {
 
     public Page<MembersDto> getAllMembers(int page, int size, String searchName) {
         Pageable pageable = PageRequest.of(page, size);
-        return memberRepository.findByNameContainingIgnoreCase(pageable, searchName).map(MembersDto::new);
+        return memberRepository.findByNameContainingIgnoreCase(searchName, pageable).map(MembersDto::new);
     }
 
     public MemberDto getMember(Long memberId) {
