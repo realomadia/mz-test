@@ -136,7 +136,6 @@ public class ProfileControllerTest {
         editProfileDto.setAddress("updatedAddress");
         editProfileDto.setPhone("010-1111-1111");
 
-        // When
         mockMvc.perform(put("/api/profile")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", token)

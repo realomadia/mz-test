@@ -112,7 +112,7 @@ public class RoleControllerTest {
         LoginDto loginDto = new LoginDto();
         loginDto.setId(adminId);
         loginDto.setPassword(adminPassword);
-        // When & Then
+
         MvcResult result = mockMvc
                 .perform(post("/api/member/login")
                         .contentType(MediaType.APPLICATION_JSON)

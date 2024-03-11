@@ -56,8 +56,6 @@ public class MemberControllerTest {
     @Test
 //    @Rollback(value = false)
     void addMember_success() throws Exception {
-        // Given
-
 
         AddProfileDto addProfileDto = new AddProfileDto();
         addProfileDto.setAddress(null); // 주소는 null가능
@@ -70,7 +68,6 @@ public class MemberControllerTest {
         addMemberDto.setPassword("password");
         addMemberDto.setAddProfileDto(addProfileDto);
 
-        // When & then
         mockMvc
                 .perform(post("/api/member")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -428,7 +425,7 @@ public class MemberControllerTest {
         LoginDto loginDto = new LoginDto();
         loginDto.setId(adminId);
         loginDto.setPassword(adminPassword);
-        // When & Then
+
         MvcResult result = mockMvc
                 .perform(post("/api/member/login")
                         .contentType(MediaType.APPLICATION_JSON)
