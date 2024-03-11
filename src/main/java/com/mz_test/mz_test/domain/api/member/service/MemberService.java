@@ -33,22 +33,22 @@ public class MemberService {
 
     @Transactional
     public DefaultResponseDto addMember(AddMemberDto memberDto) {
+        // 비밀번호 암호화
         String salt = BcryptUtil.generateSalt();
         String saltedPassword = BcryptUtil.hashPasswordWithSalt(memberDto.getPassword(), salt);
-        memberDto.setPassword(saltedPassword);
         memberDto.setSalt(salt);
+        memberDto.setPassword(saltedPassword);
+        // Member 조회 (이미 저장된 경우 더티 체킹을 위해)
+        Optional<Member> optionalMember = memberRepository.findByLoginId(memberDto.getLoginId());
 
-        // Member 저장
-        Member member;
-        try {
-            member = Member.createWithProfile(memberDto);
+        if (optionalMember.isEmpty()) {
+            // 새로운 Member 생성
+            Member member = Member.createWithProfile(memberDto);
             memberRepository.save(member);
-        } catch (DataIntegrityViolationException e) {
-            throw new CustomException("DUPLICATE_MEMBER_ID", ErrorCode.SIGN_UP_DUPLICATE);
+            return DefaultResponseDto.builder().success(true).message("회원가입 완료").build();
         }
-        return DefaultResponseDto.builder().success(true).message("회원가입 완료").build();
+        throw new CustomException("w",ErrorCode.SIGN_UP_DUPLICATE);
     }
-
     public String login(LoginDto loginDto) {
         try {
             Optional<Member> optionalMember = memberRepository.findByLoginId(loginDto.getId());

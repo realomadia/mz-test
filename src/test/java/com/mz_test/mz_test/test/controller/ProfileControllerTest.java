@@ -176,7 +176,7 @@ public class ProfileControllerTest {
      * 프로필 삭제 성공 테스트(1. 메인프로필을 삭제할때, 메인 프로필이 아닌걸 삭제할때)
      */
     @Test
-    @Rollback(value = false)
+//    @Rollback(value = false)
     void deleteProfile_success() throws Exception {
         // 프로필 하 나 더 추 가
         addProfile_success();

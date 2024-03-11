@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +54,7 @@ public class MemberControllerTest {
      * 회원가입 성공 테스트
      */
     @Test
-//    @Rollback(value = false)
+    @Rollback(value = false)
     void addMember_success() throws Exception {
         // Given
 

@@ -51,7 +51,6 @@ public class ProfileService {
             if(optionalProfile.isPresent()){
                 Profile profile = optionalProfile.get();
                 profile.editProfile(editProfileDto);
-                profileRepository.save(profile);
             }else{
                 throw new CustomException("PROFILE_NOT_FOUND", ErrorCode.INVALID_INPUT_VALUE);
             }
