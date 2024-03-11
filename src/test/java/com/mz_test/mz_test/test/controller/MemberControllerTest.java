@@ -54,7 +54,7 @@ public class MemberControllerTest {
      * 회원가입 성공 테스트
      */
     @Test
-    @Rollback(value = false)
+//    @Rollback(value = false)
     void addMember_success() throws Exception {
         // Given
 

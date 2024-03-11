@@ -13,7 +13,6 @@ import com.mz_test.mz_test.global.config.exception.ErrorCode;
 import com.mz_test.mz_test.global.util.BcryptUtil;
 import com.mz_test.mz_test.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +44,7 @@ public class MemberService {
             memberRepository.save(member);
             return DefaultResponseDto.builder().success(true).message("회원가입 완료").build();
         }
-        throw new CustomException("w",ErrorCode.SIGN_UP_DUPLICATE);
+        throw new CustomException("이미 가입된 아이디 입니다.",ErrorCode.SIGN_UP_DUPLICATE);
     }
     public String login(LoginDto loginDto) {
         try {
