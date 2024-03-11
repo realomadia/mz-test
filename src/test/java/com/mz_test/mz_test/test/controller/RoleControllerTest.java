@@ -87,7 +87,7 @@ public class RoleControllerTest {
         assertEquals(member.getRole(), "member"); // 멤버 확인
     }
 
-//    @Rollback(value = false)
+    //    @Rollback(value = false)
     private String adminLogin() throws Exception {
 
         String adminId = "admin";

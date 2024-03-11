@@ -1,6 +1,5 @@
 package com.mz_test.mz_test.test.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mz_test.mz_test.domain.api.member.dto.request.AddMemberDto;
@@ -13,7 +12,6 @@ import com.mz_test.mz_test.domain.api.profile.dto.request.AddProfileDto;
 import com.mz_test.mz_test.domain.api.profile.dto.response.ProfileDto;
 import com.mz_test.mz_test.domain.api.profile.entity.Profile;
 import com.mz_test.mz_test.global.util.BcryptUtil;
-import com.mz_test.mz_test.global.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -217,7 +215,7 @@ public class MemberControllerTest {
         List<MembersDto> membersDtoList = convertJsonToMemberDtoList(content);
         assertEquals(size, membersDtoList.size());
 
-        for(MembersDto dto : membersDtoList){
+        for (MembersDto dto : membersDtoList) {
             log.info("ID : {}", dto.getMemberId());
             log.info("NICKNAME : {}", dto.getProfileDto().getNickname());
             log.info("NAME : {}", dto.getName());
