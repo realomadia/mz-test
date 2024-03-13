@@ -42,7 +42,7 @@ JUnit 기반 Test code를 작성하시오.
 
 ## ⚒ 기술 스택
 
-**Back**: `JAVA`, `H2`, `MongoDB`, `JPA` 
+**Back**: `JAVA`, `H2`, `JPA` 
 
 ## 🛣 REST API
 
