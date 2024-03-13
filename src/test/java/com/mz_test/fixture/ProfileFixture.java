@@ -8,7 +8,6 @@ import com.mz_test.request.CreateProfileRequest;
 public class ProfileFixture {
 
     public static Profile profile(Long id) {
-
         return new Profile(id,MemberFixture.idMember(), "megazone","010-1234-5678", "seoul", 1);
     }
 

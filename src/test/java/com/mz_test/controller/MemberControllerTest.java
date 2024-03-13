@@ -88,9 +88,14 @@ public class MemberControllerTest {
     @DisplayName("올바르지 않은 회원 정보가 주어지면 LoginIdDuplicateException 를 반환한다")
     void createExceptionTest() throws Exception {
 
-        CreateProfileRequest createProfileRequest = ProfileFixture.createProfileRequest();
+        CreateProfileRequest createProfileRequest = CreateProfileRequest.builder().address("address").phone("010-1111-4554").nickname("nickname").build();
 
-        CreateMemberRequest createMemberRequest1 = MemberFixture.createMemberRequest(createProfileRequest);
+        CreateMemberRequest createMemberRequest1 = CreateMemberRequest.builder().
+                                                    createProfileRequest(createProfileRequest).
+                                                    loginId("duplicateId").
+                                                    name("nameme").
+                                                    password("hhihhw123").
+                                                    build();
 
         mockMvc
                 .perform(post("/api/members")
@@ -110,7 +115,7 @@ public class MemberControllerTest {
     @DisplayName("올바른 회원 정보가 주어지면 회원이 삭제된다.")
     void deleteTest() throws Exception {
         Member member = MemberFixture.idMember("imdelete");
-        Profile profile = ProfileFixture.profile(1L);
+        Profile profile = ProfileFixture.profile(member);
         memberRepository.save(member);
         profileRepository.save(profile);
         mockMvc

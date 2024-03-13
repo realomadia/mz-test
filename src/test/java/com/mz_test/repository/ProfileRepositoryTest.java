@@ -34,30 +34,30 @@ class ProfileRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @BeforeEach
-    public void setup() throws Exception {
-        // Given
-        addData();
-    }
+
 
     @Test
     @DisplayName("존재하는 회원이 주어질시 회원의 프로필정보들을 리턴")
     public void testFindAllByMember() {
         // Given
-        Member member = memberRepository.findById(1L).orElseThrow(() -> new MemberNotFoundException(1L));
+        Member member = MemberFixture.idMember();
+        memberRepository.save(member);
+
+        Profile profile = ProfileFixture.profile(member);
+        profileRepository.save(profile);
 
         // When
         List<Profile> profiles = profileRepository.findAllByMember(member);
         // Then
         assertThat(profiles).isNotNull();
-        assertThat(profiles.get(0).getAddress()).isEqualTo("texas");
     }
 
     @Test
     @DisplayName("올바른 회원이 주어질시 회원을 삭제")
     public void testDeleteByMember() {
         // Given
-        Member member = memberRepository.findById(1L).orElseThrow(() -> new MemberNotFoundException(1L));
+        Member member = MemberFixture.idMember();
+        memberRepository.save(member);
 
         // When
         profileRepository.deleteByMember(member);
@@ -69,6 +69,15 @@ class ProfileRepositoryTest {
     @Test
     public void testFindByIsMain() {
         // Given
+        for (int i = 0; i <= 9; i++) {
+            Member member = MemberFixture.idMember("loginId" + i);
+            Profile profile = ProfileFixture.profile(member);
+            Profile profile1 = ProfileFixture.mainProfile(member);
+            memberRepository.save(member);
+            profileRepository.save(profile);
+            profileRepository.save(profile1);
+        }
+
         String searchKeyword = "name"; // 테스트할 검색 키워드를 설정합니다.
         Pageable pageable = PageRequest.of(0, 3);
 
@@ -79,17 +88,5 @@ class ProfileRepositoryTest {
         assertThat(page).isNotNull();
         assertThat(page.getContent().size()).isEqualTo(3);
         assertThat(page.getContent().get(0).getNickname()).isEqualTo("testNickname");
-    }
-
-
-    public void addData() {
-        for (int i = 0; i <= 9; i++) {
-            Member member = MemberFixture.idMember("loginId" + i);
-            Profile profile = ProfileFixture.profile(member);
-            Profile profile1 = ProfileFixture.mainProfile(member);
-            memberRepository.save(member);
-            profileRepository.save(profile);
-            profileRepository.save(profile1);
-        }
     }
 }

@@ -28,41 +28,27 @@ class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @BeforeEach
-    public void setup() throws Exception {
-        // Given
-        addData();
-    }
 
     @Test
     void findByLoginId() {
 
-        Member member = memberRepository.findById(1L).orElseThrow(() -> new MemberNotFoundException(1L));
-        Member findMember = memberRepository.findByLoginId(member.getLoginId()).orElseThrow(() -> new MemberNotFoundException(1L));
+        Member member = MemberFixture.idMember();
+        memberRepository.save(member);
+
+        Member findMember = memberRepository.findByLoginId(member.getLoginId()).orElseThrow(() -> new MemberNotFoundException(3L));
 
         assertThat(member.getName()).isEqualTo(findMember.getName());
     }
 
     @Test
     void existsByLoginId() {
-        Member member = memberRepository.findById(1L).orElseThrow(() -> new MemberNotFoundException(1L));
+        Member member = MemberFixture.idMember();
+        memberRepository.save(member);
 
         boolean isExist = memberRepository.existsByLoginId(member.getLoginId());
         boolean isExist2 = memberRepository.existsByLoginId("nope");
         assertThat(isExist).isTrue();
         assertThat(isExist2).isFalse();
-    }
-
-
-    public void addData() {
-        for (int i = 0; i <= 9; i++) {
-            Member member = MemberFixture.idMember("loginId" + i);
-            Profile profile = ProfileFixture.profile(member);
-            Profile profile1 = ProfileFixture.mainProfile(member);
-            memberRepository.save(member);
-            profileRepository.save(profile);
-            profileRepository.save(profile1);
-        }
     }
 
 }

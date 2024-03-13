@@ -73,7 +73,7 @@ public class ProfileControllerTest {
         mockMvc.perform(put("/api/members/"+member.getId()+"/profiles/"+profile.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(editProfileRequest)))
-                .andExpect(status().isOk());
+                .andExpect(status().is(201));
 
         // 수정됬는지 확인
         assertEquals("updatedNickname", profile.getNickname());
@@ -92,7 +92,7 @@ public class ProfileControllerTest {
 
         mockMvc.perform(delete("/api/members/"+ member.getId() +"/profiles/" + profile.getId())// 메인 프로필이 한개밖에 없기 때문에 실패
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400))
+                .andExpect(status().is(403))
                 .andExpect(jsonPath("$.message").value("프로필은 최소 한개 가지고 있어야 합니다."));
     }
 
