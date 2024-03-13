@@ -28,12 +28,12 @@ public class ProfileService {
 
     private final ProfileRepository profileRepository;
 
-    public Profile find(@NotNull final Long profileId) {
+    public Profile find(Long profileId) {
         Profile profile = profileRepository.findById(profileId).orElseThrow(() -> new ProfileNotFoundException(profileId));
         return profile;
     }
 
-    public Member findMemberById(@NotNull final Long memberId) {
+    public Member findMemberById(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
     }
 

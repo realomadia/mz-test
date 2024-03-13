@@ -57,7 +57,7 @@ public class MemberService {
         return profileRepository.findByIsMain(searchKeyword, pageable).map(MemberResponse::new);
     }
 
-    public Member find(@NotNull final Long memberId) {
+    public Member find(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(() -> new MemberNotFoundException(memberId));
     }
 
