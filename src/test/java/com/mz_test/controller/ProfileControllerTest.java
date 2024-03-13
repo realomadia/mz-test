@@ -9,6 +9,7 @@ import com.mz_test.repository.MemberRepository;
 import com.mz_test.repository.ProfileRepository;
 import com.mz_test.request.CreateProfileRequest;
 import com.mz_test.request.EditProfileRequest;
+import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-@Transactional
 public class ProfileControllerTest {
 
     @Autowired
@@ -40,7 +40,6 @@ public class ProfileControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
 
     @Test
     @DisplayName("올바른 프로필 정보가 주어지면 프로필이 생성된다.")
@@ -75,17 +74,19 @@ public class ProfileControllerTest {
                         .content(objectMapper.writeValueAsString(editProfileRequest)))
                 .andExpect(status().is(201));
 
+
+        Profile updatedProfile = profileRepository.findById(profile.getId()).get();
         // 수정됬는지 확인
-        assertEquals("updatedNickname", profile.getNickname());
-        assertEquals("updatedAddress", profile.getAddress());
-        assertEquals("010-1111-1111", profile.getPhone());
+        assertEquals("updatedNickname", updatedProfile.getNickname());
+        assertEquals("updatedAddress", updatedProfile.getAddress());
+        assertEquals("010-1111-1111", updatedProfile.getPhone());
     }
 
 
     @Test
     @DisplayName("회원 프로필이 한개일시 삭제할수 없다.")
     void deleteExceptionTest() throws Exception {
-        Member member = MemberFixture.idMember();
+        Member member = MemberFixture.idMember("notDelete");
         memberRepository.save(member);
         Profile profile = ProfileFixture.profile(member, 1);
         profileRepository.save(profile);

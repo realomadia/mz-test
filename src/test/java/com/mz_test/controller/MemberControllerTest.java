@@ -40,7 +40,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @Slf4j
-@Transactional
 public class MemberControllerTest {
 
     @Autowired
@@ -54,7 +53,6 @@ public class MemberControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-    @Commit
     @DisplayName("올바른 회원 정보가 주어지면 회원이 생성 된다")
     @Test
     void createTest() throws Exception {
