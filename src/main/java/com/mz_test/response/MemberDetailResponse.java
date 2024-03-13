@@ -29,29 +29,5 @@ public class MemberDetailResponse {
         this.name = member.getName();
         this.profileList = profiles.stream().map(ProfileResponse::new).collect(Collectors.toList());
     }
-    public static MemberDetailResponse fromJsonString(String jsonString) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode jsonNode = objectMapper.readTree(jsonString);
-
-        JsonNode dataNode = jsonNode.path("data");
-        Long memberId = dataNode.path("memberId").asLong();
-        String loginId = dataNode.path("loginId").asText();
-        String name = dataNode.path("name").asText();
-
-        JsonNode profileListNode = dataNode.path("profileList");
-        List<ProfileResponse> profileList = new ArrayList<>();
-        for (JsonNode profileNode : profileListNode) {
-            ProfileResponse profileResponse = objectMapper.treeToValue(profileNode, ProfileResponse.class);
-            profileList.add(profileResponse);
-        }
-
-        MemberDetailResponse memberDetailResponse = new MemberDetailResponse();
-        memberDetailResponse.setMemberId(memberId);
-        memberDetailResponse.setLoginId(loginId);
-        memberDetailResponse.setName(name);
-        memberDetailResponse.setProfileList(profileList);
-
-        return memberDetailResponse;
-    }
 
 }

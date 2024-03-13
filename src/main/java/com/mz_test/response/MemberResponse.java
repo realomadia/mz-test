@@ -38,19 +38,5 @@ public class MemberResponse {
         this.address = profile.getAddress();
     }
 
-    public static List<MemberResponse>  fromJsonString(String jsonString) throws JsonProcessingException {
-        List<MemberResponse> memberResponses = new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        JsonNode jsonNode = objectMapper.readTree(jsonString);
-        JsonNode contentNode = jsonNode.path("data").path("content");
-
-        for (JsonNode memberNode : contentNode) {
-            MemberResponse memberResponse = objectMapper.treeToValue(memberNode, MemberResponse.class);
-            memberResponses.add(memberResponse);
-        }
-        return memberResponses;
-    }
-
 
 }

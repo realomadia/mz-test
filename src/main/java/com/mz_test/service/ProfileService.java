@@ -27,6 +27,8 @@ public class ProfileService {
     private final MemberRepository memberRepository;
 
     private final ProfileRepository profileRepository;
+    private final static int MINIMUM_PROFILE_COUNT = 2;
+    private final static int MAIN_PROFILE_NUM = 1;
 
     public Profile find(Long profileId) {
         Profile profile = profileRepository.findById(profileId).orElseThrow(() -> new ProfileNotFoundException(profileId));
@@ -63,7 +65,7 @@ public class ProfileService {
         validMemberProfile(memberId, profileId);
         Member member = findMemberById(memberId);
         List<Profile> profiles = profileRepository.findAllByMember(member);
-        if (profiles.size() < 2) {
+        if (profiles.size() < MINIMUM_PROFILE_COUNT) {
             throw new ProfileRemovalNotAllowedException();
         }
 
@@ -71,7 +73,7 @@ public class ProfileService {
                 .filter(profile -> profile.getId().equals(profileId))
                 .findAny()
                 .orElseThrow(() -> new ProfileNotFoundException(profileId));
-        if (profileToDelete.getIsMain() == 1) {
+        if (profileToDelete.getIsMain() == MAIN_PROFILE_NUM) {
             Profile nextProfile = profiles.stream()
                     .filter(profile -> !profile.getId().equals(profileId))
                     .findAny()

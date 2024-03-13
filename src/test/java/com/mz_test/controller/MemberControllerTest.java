@@ -1,5 +1,7 @@
 package com.mz_test.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mz_test.entity.Member;
 import com.mz_test.entity.Profile;
@@ -12,6 +14,7 @@ import com.mz_test.request.CreateMemberRequest;
 import com.mz_test.request.CreateProfileRequest;
 import com.mz_test.response.MemberDetailResponse;
 import com.mz_test.response.MemberResponse;
+import com.mz_test.response.ProfileResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,6 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -145,7 +149,7 @@ public class MemberControllerTest {
 
         String content = mvcResult.getResponse().getContentAsString();
 
-        List<MemberResponse> MemberResponseList = MemberResponse.fromJsonString(content);
+        List<MemberResponse> MemberResponseList = listMemberResponseFromJsonString(content);
         assertEquals(size, MemberResponseList.size());
         for (MemberResponse dto : MemberResponseList) {
             log.info("ID : {}", dto.getMemberId());
@@ -175,7 +179,7 @@ public class MemberControllerTest {
                 .andReturn();
 
         String content = mvcResult.getResponse().getContentAsString();
-        MemberDetailResponse memberDetailResponse = MemberDetailResponse.fromJsonString(content);
+        MemberDetailResponse memberDetailResponse = memberDetailResponsefromJsonString(content);
 
         assertEquals(6, memberDetailResponse.getProfileList().size()); // 임의로 넣은 프로필 5개 + addMember()에서 기본으로 들어가는 프로필 1개
         assertEquals(member.getId(), memberDetailResponse.getMemberId());
@@ -189,6 +193,44 @@ public class MemberControllerTest {
             memberRepository.save(member);
             profileRepository.save(profile);
         }
+    }
+    public MemberDetailResponse memberDetailResponsefromJsonString(String jsonString) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(jsonString);
+
+        JsonNode dataNode = jsonNode.path("data");
+        Long memberId = dataNode.path("memberId").asLong();
+        String loginId = dataNode.path("loginId").asText();
+        String name = dataNode.path("name").asText();
+
+        JsonNode profileListNode = dataNode.path("profileList");
+        List<ProfileResponse> profileList = new ArrayList<>();
+        for (JsonNode profileNode : profileListNode) {
+            ProfileResponse profileResponse = objectMapper.treeToValue(profileNode, ProfileResponse.class);
+            profileList.add(profileResponse);
+        }
+
+        MemberDetailResponse memberDetailResponse = new MemberDetailResponse();
+        memberDetailResponse.setMemberId(memberId);
+        memberDetailResponse.setLoginId(loginId);
+        memberDetailResponse.setName(name);
+        memberDetailResponse.setProfileList(profileList);
+
+        return memberDetailResponse;
+    }
+
+    public List<MemberResponse>  listMemberResponseFromJsonString(String jsonString) throws JsonProcessingException {
+        List<MemberResponse> memberResponses = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        JsonNode jsonNode = objectMapper.readTree(jsonString);
+        JsonNode contentNode = jsonNode.path("data").path("content");
+
+        for (JsonNode memberNode : contentNode) {
+            MemberResponse memberResponse = objectMapper.treeToValue(memberNode, MemberResponse.class);
+            memberResponses.add(memberResponse);
+        }
+        return memberResponses;
     }
 
 }
